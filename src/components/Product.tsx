@@ -1,62 +1,49 @@
-"use client";
-import Link from "next/link";
-import { useSelectedLayoutSegment } from "next/navigation";
+import { AppContext } from "@/AppContext";
+import { IProduct } from "@/interfaces";
+import { useContext } from "react";
 
-export const Nav = () => {
-	const activeSegment = useSelectedLayoutSegment();
+interface IProps {
+	product: IProduct;
+	quantity?: number;
+}
 
+export const Product = ({ product, quantity }: IProps) => {
+	const { handleAddProductToCart, handleRemoveProductFromCart } = useContext(AppContext);
 	return (
-		<nav>
-			<ul className="flex gap-4 bg-slate-700 text-white p-2 font-semibold rounded mb-4">
-				<li>
-					<Link
-						href="/"
-						className={
-							activeSegment === "(welcome)"
-								? "text-yellow-200"
-								: ""
-						}
+		<div
+			key={product.id}
+			className="mb-4 bg-slate-600 p-4 rounded w-1/2 flex gap-3 max-w-[35rem]"
+		>
+			{quantity && <p className="text-slate-100 text-2xl">{quantity}x</p>}
+			<img src={`images/products/product_${product.id}.jpg`} />
+			<section className="productGrid">
+				<section>
+					<p className="text-xs text-yellow-500">
+						{product.category}
+					</p>
+					<p className="font-semibold text-2xl">
+						{product.brand} {product.model}
+					</p>
+					<p className="text-red-500">{product.price} €</p>
+				</section>
+				{quantity ? (
+					<button
+						type="button"
+						onClick={() => handleRemoveProductFromCart(product.id)}
+						className="bg-slate-400 hover:bg-slate-300 rounded px-2 py-0"
 					>
-						Welcome
-					</Link>
-				</li>
-				<li>
-					<Link
-						href="/products"
-						className={
-							activeSegment === "products"
-								? "text-yellow-200"
-								: ""
-						}
+						Remove from Cart
+					</button>
+				) : (
+					<button
+						type="button"
+						onClick={() => handleAddProductToCart(product.id)}
+						className="bg-slate-400 hover:bg-slate-300 rounded px-2 py-0"
 					>
-						Products
-					</Link>
-				</li>
-				<li>
-					<Link
-						href="/cart"
-						className={
-							activeSegment === "cart"
-								? "text-yellow-200"
-								: ""
-						}
-					>
-						Cart
-					</Link>
-				</li>
-				<li>
-					<Link
-						href="/contact"
-						className={
-							activeSegment === "contact"
-								? "text-yellow-200"
-								: ""
-						}
-					>
-						Contact
-					</Link>
-				</li>
-			</ul>
-		</nav>
+						Add to Cart
+					</button>
+				)}
+			</section>
+		</div>
 	);
 };

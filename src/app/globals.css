@@ -2,3 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+.productGrid {
+	display: grid;
+	width: 100%;
+	grid-template-columns: 50% 1fr;
+	grid-template-rows: 70% 1fr;
+	grid-template-areas: "text text"
+						 ".... button";
+}
+
+.productGrid section {
+	grid-area: text;
+}
+
+.productGrid button {
+	grid-area: button;
+}
