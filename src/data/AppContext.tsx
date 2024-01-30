@@ -1,28 +1,24 @@
-import { createContext, useState } from "react";
-import db from "@/data/db.json";
-import { IProduct } from "./interfaces";
-
-const products = db.products;
-
-interface IAppContext {
-	products: IProduct[]
+export interface IProduct {
+	id: number;
+	category: string;
+	brand: string;
+	model: string;
+	price: number;
 }
 
-interface IAppProvider {
-	children: React.ReactNode;
+export interface ICartProduct {
+	productId: number;
+	quantity: number;
 }
 
-export const AppContext = createContext<IAppContext>({} as IAppContext);
+export type ICustomerType = "normal" | "vip";
 
-export const AppProvider: React.FC<IAppProvider> = ({ children }) => {
-	const [products, setProducts] = useState<IProduct[]>([]);
-	return (
-		<AppContext.Provider
-			value={{
-				products
-			}}
-		>
-			{children}
-		</AppContext.Provider>
-	);
-};
+export interface ICart {
+	customerType: ICustomerType;
+	cartProducts: ICartProduct[];
+}
+
+export const blankCart: ICart = {
+	customerType: "normal",
+	cartProducts: []
+}
