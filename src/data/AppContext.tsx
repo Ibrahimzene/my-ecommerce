@@ -15,11 +15,11 @@ interface IAppProvider {
 export const AppContext = createContext<IAppContext>({} as IAppContext);
 
 export const AppProvider: React.FC<IAppProvider> = ({ children }) => {
-	const [products, setProducts] = useState()
+	const [products, setProducts] = useState<IProduct[]>([]);
 	return (
 		<AppContext.Provider
 			value={{
-				
+				products
 			}}
 		>
 			{children}
